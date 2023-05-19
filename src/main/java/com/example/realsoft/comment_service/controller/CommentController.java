@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("realsoft/trello/comments")
 @RequiredArgsConstructor
@@ -33,5 +35,15 @@ public class CommentController {
     public ResponseEntity<String> deleteComment(@PathVariable(name = "id") Long commentId) throws CommentNotFound {
         commentService.deleteComment(commentId);
         return ResponseEntity.ok("Comment deleted successfully!");
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<CommentDto>> getCommentsByUser(@PathVariable(name = "id") Long userId) {
+        return ResponseEntity.ok(commentService.findCommentsByUser(userId));
+    }
+
+    @GetMapping("/card/{id}")
+    public ResponseEntity<List<CommentDto>> getCommentsByCard(@PathVariable(name = "id") Long cardId) {
+        return ResponseEntity.ok(commentService.findCommentsByCard(cardId));
     }
 }

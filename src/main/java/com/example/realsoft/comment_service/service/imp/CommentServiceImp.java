@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImp implements CommentService {
@@ -41,6 +44,20 @@ public class CommentServiceImp implements CommentService {
     @Override
     public void deleteComment(Long commentId) throws CommentNotFound {
         commentRepository.delete(findComment(commentId));
+    }
+
+    @Override
+    public List<CommentDto> findCommentsByUser(Long userId) {
+        return commentRepository.findCommentsByUserId(userId).stream()
+                .map(comment -> modelMapper.map(comment, CommentDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CommentDto> findCommentsByCard(Long cardId) {
+        return commentRepository.findCommentsByCardId(cardId).stream()
+                .map(comment -> modelMapper.map(comment, CommentDto.class))
+                .collect(Collectors.toList());
     }
 
     private Comment findComment(Long commentId) throws CommentNotFound {

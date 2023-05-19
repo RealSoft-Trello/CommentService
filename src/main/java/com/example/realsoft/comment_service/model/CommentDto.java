@@ -10,6 +10,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class CommentDto {
+    private Long commentId;
     private Long userId;
     private Long cardId;
     private String content;
